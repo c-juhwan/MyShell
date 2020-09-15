@@ -1,3 +1,10 @@
 /.DS_Store
 /.vscode
 /Doxyfile
+/Source/.DS_Store
+/Source/a.out
+/Source/exec
+/Source/fork
+/Source/shell
+/Source/test
+/Source/wait
