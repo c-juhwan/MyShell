@@ -1,0 +1,11 @@
+*.out
+.DS_Store
+
+/.vscode
+/Doxyfile
+
+Source/exec
+Source/fork
+Source/shell
+Source/test
+Source/wait
