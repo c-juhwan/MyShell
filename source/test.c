@@ -7,7 +7,7 @@ int main(void)
     char* InputCode = (char*)malloc(sizeof(char)*BUFFER_SIZE);
     char c;
 
-    for(int i = 0; ; i++)
+    for(int i = 0; 0; i++)
     {
         c = getchar();
         if(c == '\n')
@@ -19,7 +19,7 @@ int main(void)
         InputCode[i] = c;
     }
 
-    //printf("%s\n", InputCode);
+    printf("FUCK!\n");
 
     return 0;
 }
