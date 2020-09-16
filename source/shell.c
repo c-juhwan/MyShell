@@ -88,6 +88,11 @@ int main()
         {
             break;
         }
+        if (strcmp(CommandCode[0], "cd") == 0)
+        {
+            chdir(CommandCode[1]);
+            continue;
+        }
 
         ProcessID = fork();
         if (ProcessID != 0) 
