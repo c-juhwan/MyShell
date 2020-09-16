@@ -1,5 +1,5 @@
-\hypertarget{shell_8c}{}\doxysection{Source/shell.c File Reference}
-\label{shell_8c}\index{Source/shell.c@{Source/shell.c}}
+\hypertarget{shell_8c}{}\doxysection{shell.\+c File Reference}
+\label{shell_8c}\index{shell.c@{shell.c}}
 
 
 Main file of this project.  
@@ -11,17 +11,6 @@ Main file of this project.
 {\ttfamily \#include $<$string.\+h$>$}\newline
 {\ttfamily \#include $<$stdlib.\+h$>$}\newline
 {\ttfamily \#include $<$stdio.\+h$>$}\newline
-\doxysubsection*{Data Structures}
-\begin{DoxyCompactItemize}
-\item 
-struct \mbox{\hyperlink{struct_s_tcommand}{S\+Tcommand}}
-\begin{DoxyCompactList}\small\item\em Contain execution command name and its option. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsection*{Typedefs}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{shell_8c_acbe05c0d859c9becf22bbf2fbbdaa9c4}\label{shell_8c_acbe05c0d859c9becf22bbf2fbbdaa9c4}} 
-typedef struct \mbox{\hyperlink{struct_s_tcommand}{S\+Tcommand}} {\bfseries command}
-\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -29,18 +18,20 @@ int \mbox{\hyperlink{shell_8c_afc5addce03ae4aae2b5e7da92b1263dc}{print\+Shell}} 
 \begin{DoxyCompactList}\small\item\em Print shell interface, \char`\"{}\+Juhwan\$\char`\"{}. \end{DoxyCompactList}\item 
 char $\ast$ \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command}} ()
 \begin{DoxyCompactList}\small\item\em Get the Command string. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{struct_s_tcommand}{command}} $\ast$ \mbox{\hyperlink{shell_8c_ad39320a3157b83dd6d0162531dc5311b}{split\+Command}} (char $\ast$\+\_\+\+Input\+Code)
-\begin{DoxyCompactList}\small\item\em Split string and make command struct. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{shell_8c_acdbcff3f6355bc14ca51a73c9f3e7ead}{release\+Memory}} (\mbox{\hyperlink{struct_s_tcommand}{command}} $\ast$\+\_\+\+Command\+Code)
-\begin{DoxyCompactList}\small\item\em release used memory \end{DoxyCompactList}\item 
+char $\ast$$\ast$ \mbox{\hyperlink{shell_8c_a832460589c1f2c8e15405d782479de2d}{split\+Command}} (char $\ast$Input\+Code)
+\begin{DoxyCompactList}\small\item\em Split string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{shell_8c_afde5d769cb4fd596986d09e97c4738bf}{release\+Memory}} (char $\ast$$\ast$Command\+Code)
+\begin{DoxyCompactList}\small\item\em Release used memory. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{shell_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
-\begin{DoxyCompactList}\small\item\em Main function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Main function with loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{shell_8c_adfa11cb5d803ca41f2591db32cbbbd7e}\label{shell_8c_adfa11cb5d803ca41f2591db32cbbbd7e}} 
 const char $\ast$ \mbox{\hyperlink{shell_8c_adfa11cb5d803ca41f2591db32cbbbd7e}{O\+S\+N\+A\+ME}} = \char`\"{}Unknown\char`\"{}
-\begin{DoxyCompactList}\small\item\em Finds and define os name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Find and define os name ~\newline
+ It can distingush operating systems below\+: ~\newline
+ Windows, Linux, mac\+OS, Unknown. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -69,12 +60,13 @@ Juhwan Choi (\href{mailto:gold5230@cau.ac.kr}{\texttt{ gold5230@cau.\+ac.\+kr}})
 Get the Command string. 
 
 \begin{DoxyReturn}{Returns}
-char$\ast$ Return string given from user
+char$\ast$ ~\newline
+ Return string given from user
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-This is an Old Code, which had a problem. ~\newline
+This is an old code, which had a problem. ~\newline
  It couldn\textquotesingle{}t accpet input command without an option. ~\newline
- Because it was unable to \textquotesingle{}skip\textquotesingle{} the second scanf format. 
+ Because it was unable to \textquotesingle{}skip\textquotesingle{} the scanf format by pressing enter key. 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//}}
 \DoxyCodeLine{\textcolor{keywordtype}{char}* \_Name   = (\textcolor{keywordtype}{char}*)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char})*10);}
@@ -82,9 +74,9 @@ This is an Old Code, which had a problem. ~\newline
 \DoxyCodeLine{}
 \DoxyCodeLine{scanf(\textcolor{stringliteral}{"{}\%s \%s"{}}, \_Name, \_Option);}
 \DoxyCodeLine{}
-\DoxyCodeLine{\mbox{\hyperlink{struct_s_tcommand}{command}}* \_CommandCode = (\mbox{\hyperlink{struct_s_tcommand}{command}}*)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{struct_s_tcommand}{command}}));}
-\DoxyCodeLine{\_CommandCode-\/>\mbox{\hyperlink{struct_s_tcommand_a2a12318712b04c5125a690c3bd19df8c}{Name}}    = \_Name;}
-\DoxyCodeLine{\_CommandCode-\/>\mbox{\hyperlink{struct_s_tcommand_ac2bb1d319499f1f424b0e8a51f988e25}{Option}}  = \_Option;}
+\DoxyCodeLine{command* CommandCode = (command*)malloc(\textcolor{keyword}{sizeof}(command));}
+\DoxyCodeLine{CommandCode-\/>Name    = \_Name;}
+\DoxyCodeLine{CommandCode-\/>Option  = \_Option;}
 \end{DoxyCode}
  
 \end{DoxySeeAlso}
@@ -96,15 +88,18 @@ This is an Old Code, which had a problem. ~\newline
 
 
 
-Main function. 
+Main function with loop. 
 
-Run other functions ~\newline
- Takes keyboard input from user ~\newline
- Execute given command
+~\newline
+ 1. Run other functions in loop ~\newline
+ 2. Fork child process ~\newline
+ 3. Execute given command in child process ~\newline
+ 4. parent process will wait for child process
 
 \begin{DoxyReturn}{Returns}
-int Return 0 when the function ended successful ~\newline
- Return 1 when it isn\textquotesingle{}t supported os 
+int ~\newline
+ Return 0 \+: when the function ended successful ~\newline
+ Return 1 \+: when it isn\textquotesingle{}t supported os 
 \end{DoxyReturn}
 \mbox{\Hypertarget{shell_8c_afc5addce03ae4aae2b5e7da92b1263dc}\label{shell_8c_afc5addce03ae4aae2b5e7da92b1263dc}} 
 \index{shell.c@{shell.c}!printShell@{printShell}}
@@ -117,49 +112,67 @@ int Return 0 when the function ended successful ~\newline
 Print shell interface, \char`\"{}\+Juhwan\$\char`\"{}. 
 
 \begin{DoxyReturn}{Returns}
-int Return 0 when the function ended successfully 
+int ~\newline
+ Return 0 \+: when the function ended successfully 
 \end{DoxyReturn}
-\mbox{\Hypertarget{shell_8c_acdbcff3f6355bc14ca51a73c9f3e7ead}\label{shell_8c_acdbcff3f6355bc14ca51a73c9f3e7ead}} 
+\mbox{\Hypertarget{shell_8c_afde5d769cb4fd596986d09e97c4738bf}\label{shell_8c_afde5d769cb4fd596986d09e97c4738bf}} 
 \index{shell.c@{shell.c}!releaseMemory@{releaseMemory}}
 \index{releaseMemory@{releaseMemory}!shell.c@{shell.c}}
 \doxysubsubsection{\texorpdfstring{releaseMemory()}{releaseMemory()}}
-{\footnotesize\ttfamily int release\+Memory (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_s_tcommand}{command}} $\ast$}]{\+\_\+\+Command\+Code }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int release\+Memory (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{Command\+Code }\end{DoxyParamCaption})}
 
 
 
-release used memory 
+Release used memory. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em \+\_\+\+Command\+Code} & Release this struct and its member, which was allocated by malloc() \\
+{\em Command\+Code} & Release a pointer, which was allocated by malloc() \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-int Return 0 when then function ended successfully
+int ~\newline
+ Return 0 \+: when then function ended successfully 
 \end{DoxyReturn}
-\begin{DoxySeeAlso}{See also}
-\mbox{\hyperlink{struct_s_tcommand}{S\+Tcommand}} Refer to this struct 
-\end{DoxySeeAlso}
-\mbox{\Hypertarget{shell_8c_ad39320a3157b83dd6d0162531dc5311b}\label{shell_8c_ad39320a3157b83dd6d0162531dc5311b}} 
+\mbox{\Hypertarget{shell_8c_a832460589c1f2c8e15405d782479de2d}\label{shell_8c_a832460589c1f2c8e15405d782479de2d}} 
 \index{shell.c@{shell.c}!splitCommand@{splitCommand}}
 \index{splitCommand@{splitCommand}!shell.c@{shell.c}}
 \doxysubsubsection{\texorpdfstring{splitCommand()}{splitCommand()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{struct_s_tcommand}{command}} $\ast$ split\+Command (\begin{DoxyParamCaption}\item[{char $\ast$}]{\+\_\+\+Input\+Code }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily char $\ast$$\ast$ split\+Command (\begin{DoxyParamCaption}\item[{char $\ast$}]{Input\+Code }\end{DoxyParamCaption})}
 
 
 
-Split string and make command struct. 
-
-Split string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} as command name and command option then make a \mbox{\hyperlink{struct_s_tcommand}{S\+Tcommand}} instance with splited data filally return it
+Split string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} 
 
 
 \begin{DoxyParams}{Parameters}
-{\em \+\_\+\+Input\+Code} & Takes string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} \\
+{\em Input\+Code} & Takes string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-command$\ast$ Return a pointer of command struct
+char$\ast$$\ast$ ~\newline
+ Return a pointer of splited tokens. ~\newline
+ This is an array of string pointers.
 \end{DoxyReturn}
 \begin{DoxySeeAlso}{See also}
-\mbox{\hyperlink{struct_s_tcommand}{S\+Tcommand}} Using this struct 
+This is an old Code, which had a problem. ~\newline
+ It was okay with only one option. ~\newline
+ So it was unable to execute a command like \char`\"{}diff file1 file2\char`\"{}. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{command* CommandCode = (command*)malloc(\textcolor{keyword}{sizeof}(command)*1);}
+\DoxyCodeLine{\textcolor{keywordtype}{char} SplitPoint = \textcolor{charliteral}{' '};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//if user just pressed enter, no input}}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (strcmp(InputCode, \textcolor{stringliteral}{"{}\(\backslash\)0"{}}) == 0)\(\backslash\)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{     CommandCode-\/>Name = NULL;}
+\DoxyCodeLine{     CommandCode-\/>Option = NULL;}
+\DoxyCodeLine{     \textcolor{keywordflow}{return} CommandCode;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{CommandCode-\/>Name = strtok(InputCode, \&SplitPoint);}
+\DoxyCodeLine{CommandCode-\/>Option = strtok(NULL, \&SplitPoint);}
+\DoxyCodeLine{\textcolor{keywordflow}{return} CommandCode;}
+\end{DoxyCode}
+ 
 \end{DoxySeeAlso}

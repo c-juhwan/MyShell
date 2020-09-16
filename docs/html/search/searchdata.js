@@ -1,30 +1,24 @@
 var indexSectionsWithContent =
 {
-  0: "gmnoprst",
+  0: "gmoprs",
   1: "s",
-  2: "s",
-  3: "gmprs",
-  4: "no",
-  5: "t"
+  2: "gmprs",
+  3: "o"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "classes",
-  2: "files",
-  3: "functions",
-  4: "variables",
-  5: "pages"
+  1: "files",
+  2: "functions",
+  3: "variables"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Data Structures",
-  2: "Files",
-  3: "Functions",
-  4: "Variables",
-  5: "Pages"
+  1: "Files",
+  2: "Functions",
+  3: "Variables"
 };
 

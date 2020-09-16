@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['releasememory_16',['releaseMemory',['../shell_8c.html#acdbcff3f6355bc14ca51a73c9f3e7ead',1,'shell.c']]]
+  ['releasememory_11',['releaseMemory',['../shell_8c.html#afde5d769cb4fd596986d09e97c4738bf',1,'shell.c']]]
 ];

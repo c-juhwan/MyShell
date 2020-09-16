@@ -5,8 +5,6 @@
  * 
  * @version 1.0
  * @date 2020-09-12
- * 
- * @todo The command "cd" seems not to work.
  */
 
 /**
@@ -27,7 +25,9 @@
 
 /**
  * @var OSNAME
- * @brief Finds and define os name
+ * @brief Find and define os name
+ * @n It can distingush operating systems below:
+ * @n Windows, Linux, macOS, Unknown.
  */
 #if defined(_WIN32) || defined(_WIN64)
         const char* OSNAME = "Windows";
@@ -49,15 +49,16 @@ char** splitCommand(char* InputCode);
 int releaseMemory(char** CommandCode);
 
 /**
- * @brief Main function
+ * @brief Main function with loop 
  * @details
- * Run other functions
- * @n Fork child process 
- * @n Execute given command
+ * @n 1. Run other functions in loop
+ * @n 2. Fork child process 
+ * @n 3. Execute given command in child process
+ * @n 4. parent process will wait for child process
  * 
  * @return int 
- * Return 0 when the function ended successful
- * @n Return 1 when it isn't supported os
+ * @n Return 0 : when the function ended successful
+ * @n Return 1 : when it isn't supported os
  */
 int main()
 {
@@ -117,7 +118,7 @@ int main()
  * @brief Print shell interface, "Juhwan$"
  * 
  * @return int 
- * Return 0 when the function ended successfully
+ * @n Return 0 : when the function ended successfully
  */
 int printShell()
 {
@@ -130,12 +131,12 @@ int printShell()
  * @brief Get the Command string
  * 
  * @return char* 
- * Return string given from user
+ * @n Return string given from user
  * 
  * @see
- * This is an old Code, which had a problem.
+ * This is an old code, which had a problem.
  * @n It couldn't accpet input command without an option.
- * @n Because it was unable to 'skip' the second scanf format.
+ * @n Because it was unable to 'skip' the scanf format by pressing enter key.
  * @code{.c}
  * //
  * char* _Name   = (char*)malloc(sizeof(char)*10);
@@ -183,14 +184,12 @@ char* getCommand()
 
 /**
  * @fn splitCommand(char* InputCode)
- * @brief Split string and make command struct
- * @details
- * Split string from getCommand()
+ * @brief Split string from getCommand()
  * 
  * @param InputCode 
  * Takes string from getCommand()
  * @return char**
- * Return a pointer of splited tokens.
+ * @n Return a pointer of splited tokens.
  * @n This is an array of string pointers.
  * 
  * @see
@@ -249,7 +248,7 @@ char** splitCommand(char* InputCode)
  * @param CommandCode
  * Release a pointer, which was allocated by malloc()
  * @return int 
- * Return 0 when then function ended successfully
+ * @n Return 0 : when then function ended successfully
  * 
  */
 int releaseMemory(char** CommandCode)
