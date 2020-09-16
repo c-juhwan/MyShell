@@ -1,0 +1,178 @@
+\hypertarget{shell_8c}{}\doxysection{shell.\+c File Reference}
+\label{shell_8c}\index{shell.c@{shell.c}}
+
+
+Main file of this project.  
+
+
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$sys/wait.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{shell_8c_afc5addce03ae4aae2b5e7da92b1263dc}{print\+Shell}} ()
+\begin{DoxyCompactList}\small\item\em Print shell interface, \char`\"{}\+Juhwan\$\char`\"{}. \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command}} ()
+\begin{DoxyCompactList}\small\item\em Get the Command string. \end{DoxyCompactList}\item 
+char $\ast$$\ast$ \mbox{\hyperlink{shell_8c_a832460589c1f2c8e15405d782479de2d}{split\+Command}} (char $\ast$Input\+Code)
+\begin{DoxyCompactList}\small\item\em Split string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{shell_8c_afde5d769cb4fd596986d09e97c4738bf}{release\+Memory}} (char $\ast$$\ast$Command\+Code)
+\begin{DoxyCompactList}\small\item\em Release used memory. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{shell_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main function with loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{shell_8c_adfa11cb5d803ca41f2591db32cbbbd7e}\label{shell_8c_adfa11cb5d803ca41f2591db32cbbbd7e}} 
+const char $\ast$ \mbox{\hyperlink{shell_8c_adfa11cb5d803ca41f2591db32cbbbd7e}{O\+S\+N\+A\+ME}} = \char`\"{}Unknown\char`\"{}
+\begin{DoxyCompactList}\small\item\em Find and define os name ~\newline
+ It can distingush operating systems below\+: ~\newline
+ Windows, Linux, mac\+OS, Unknown. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main file of this project. 
+
+\begin{DoxyAuthor}{Author}
+Juhwan Choi (\href{mailto:gold5230@cau.ac.kr}{\texttt{ gold5230@cau.\+ac.\+kr}})
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2020-\/09-\/11 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{shell_8c_a7daf2a79081206133e773e34c49bd590}\label{shell_8c_a7daf2a79081206133e773e34c49bd590}} 
+\index{shell.c@{shell.c}!getCommand@{getCommand}}
+\index{getCommand@{getCommand}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{getCommand()}{getCommand()}}
+{\footnotesize\ttfamily char $\ast$ get\+Command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Get the Command string. 
+
+\begin{DoxyReturn}{Returns}
+char$\ast$ ~\newline
+ Return string given from user
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+This is an old code, which had a problem. ~\newline
+ It couldn\textquotesingle{}t accpet input command without an option. ~\newline
+ Because it was unable to \textquotesingle{}skip\textquotesingle{} the scanf format by pressing enter key. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//}}
+\DoxyCodeLine{\textcolor{keywordtype}{char}* \_Name   = (\textcolor{keywordtype}{char}*)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char})*10);}
+\DoxyCodeLine{\textcolor{keywordtype}{char}* \_Option = (\textcolor{keywordtype}{char}*)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char})*10);}
+\DoxyCodeLine{}
+\DoxyCodeLine{scanf(\textcolor{stringliteral}{"{}\%s \%s"{}}, \_Name, \_Option);}
+\DoxyCodeLine{}
+\DoxyCodeLine{command* CommandCode = (command*)malloc(\textcolor{keyword}{sizeof}(command));}
+\DoxyCodeLine{CommandCode-\/>Name    = \_Name;}
+\DoxyCodeLine{CommandCode-\/>Option  = \_Option;}
+\end{DoxyCode}
+ 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{shell_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{shell_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}} 
+\index{shell.c@{shell.c}!main@{main}}
+\index{main@{main}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Main function with loop. 
+
+~\newline
+ 1. Run other functions in loop ~\newline
+ 2. Fork child process ~\newline
+ 3. Execute given command in child process ~\newline
+ 4. parent process will wait for child process
+
+\begin{DoxyReturn}{Returns}
+int ~\newline
+ Return 0 \+: when the function ended successful ~\newline
+ Return 1 \+: when it isn\textquotesingle{}t supported os 
+\end{DoxyReturn}
+\mbox{\Hypertarget{shell_8c_afc5addce03ae4aae2b5e7da92b1263dc}\label{shell_8c_afc5addce03ae4aae2b5e7da92b1263dc}} 
+\index{shell.c@{shell.c}!printShell@{printShell}}
+\index{printShell@{printShell}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{printShell()}{printShell()}}
+{\footnotesize\ttfamily int print\+Shell (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Print shell interface, \char`\"{}\+Juhwan\$\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+int ~\newline
+ Return 0 \+: when the function ended successfully 
+\end{DoxyReturn}
+\mbox{\Hypertarget{shell_8c_afde5d769cb4fd596986d09e97c4738bf}\label{shell_8c_afde5d769cb4fd596986d09e97c4738bf}} 
+\index{shell.c@{shell.c}!releaseMemory@{releaseMemory}}
+\index{releaseMemory@{releaseMemory}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{releaseMemory()}{releaseMemory()}}
+{\footnotesize\ttfamily int release\+Memory (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{Command\+Code }\end{DoxyParamCaption})}
+
+
+
+Release used memory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Command\+Code} & Release a pointer, which was allocated by malloc() \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int ~\newline
+ Return 0 \+: when then function ended successfully 
+\end{DoxyReturn}
+\mbox{\Hypertarget{shell_8c_a832460589c1f2c8e15405d782479de2d}\label{shell_8c_a832460589c1f2c8e15405d782479de2d}} 
+\index{shell.c@{shell.c}!splitCommand@{splitCommand}}
+\index{splitCommand@{splitCommand}!shell.c@{shell.c}}
+\doxysubsubsection{\texorpdfstring{splitCommand()}{splitCommand()}}
+{\footnotesize\ttfamily char $\ast$$\ast$ split\+Command (\begin{DoxyParamCaption}\item[{char $\ast$}]{Input\+Code }\end{DoxyParamCaption})}
+
+
+
+Split string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Input\+Code} & Takes string from \mbox{\hyperlink{shell_8c_a7daf2a79081206133e773e34c49bd590}{get\+Command()}} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+char$\ast$$\ast$ ~\newline
+ Return a pointer of splited tokens. ~\newline
+ This is an array of string pointers.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+This is an old Code, which had a problem. ~\newline
+ It was okay with only one option. ~\newline
+ So it was unable to execute a command like \char`\"{}diff file1 file2\char`\"{}. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{command* CommandCode = (command*)malloc(\textcolor{keyword}{sizeof}(command)*1);}
+\DoxyCodeLine{\textcolor{keywordtype}{char} SplitPoint = \textcolor{charliteral}{' '};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//if user just pressed enter, no input}}
+\DoxyCodeLine{\textcolor{keywordflow}{if} (strcmp(InputCode, \textcolor{stringliteral}{"{}\(\backslash\)0"{}}) == 0)\(\backslash\)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{     CommandCode-\/>Name = NULL;}
+\DoxyCodeLine{     CommandCode-\/>Option = NULL;}
+\DoxyCodeLine{     \textcolor{keywordflow}{return} CommandCode;}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{CommandCode-\/>Name = strtok(InputCode, \&SplitPoint);}
+\DoxyCodeLine{CommandCode-\/>Option = strtok(NULL, \&SplitPoint);}
+\DoxyCodeLine{\textcolor{keywordflow}{return} CommandCode;}
+\end{DoxyCode}
+ 
+\end{DoxySeeAlso}
