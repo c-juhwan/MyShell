@@ -43,34 +43,16 @@
 #endif
 #endif 
 
-/**
- * @struct STcommand
- * @brief Contain execution command name and its option
- */
-typedef struct STcommand
-{
-    /**
-     * @var char* Name
-     * Command (ex. ls, cd...)
-     */
-    char* Name;
-    /**
-     * @var char* Option
-     * Option of the command (ex. -rf from "rm -rf")
-     */
-    char* Option;
-}command;
-
 int printShell();
 char* getCommand();
-command* splitCommand(char* _InputCode);
-int releaseMemory(command* _CommandCode);
+char** splitCommand(char* InputCode);
+int releaseMemory(char** CommandCode);
 
 /**
  * @brief Main function
  * @details
  * Run other functions
- * @n Takes keyboard input from user
+ * @n Fork child process 
  * @n Execute given command
  * 
  * @return int 
@@ -80,7 +62,8 @@ int releaseMemory(command* _CommandCode);
 int main()
 {
     char* InputCode = NULL;
-    command* CommandCode = NULL;
+    //command* CommandCode = NULL;
+    char** CommandCode = NULL;
     pid_t ProcessID = -1;
 
     if (strcmp(OSNAME, "Windows") == 0)
@@ -97,10 +80,14 @@ int main()
         InputCode = getCommand();
         CommandCode = splitCommand(InputCode);
 
-        if (CommandCode->Name == NULL)
+        if (CommandCode[0] == NULL)
+        {
             continue;
-        if (strcmp(CommandCode->Name, "exit") == 0)
+        }
+        if (strcmp(CommandCode[0], "exit") == 0)
+        {
             break;
+        }
 
         ProcessID = fork();
         if (ProcessID != 0) 
@@ -112,8 +99,7 @@ int main()
         else
         {
             // if running process is child  process, execute given command
-            if (CommandCode->Name != NULL)
-                execlp(CommandCode->Name, CommandCode->Name, CommandCode->Option, 0);
+            execvp(CommandCode[0], CommandCode);
         }
     }
 
@@ -152,23 +138,26 @@ int printShell()
  *
  * scanf("%s %s", _Name, _Option);
  *
- * command* _CommandCode = (command*)malloc(sizeof(command));
- * _CommandCode->Name    = _Name;
- * _CommandCode->Option  = _Option;
+ * command* CommandCode = (command*)malloc(sizeof(command));
+ * CommandCode->Name    = _Name;
+ * CommandCode->Option  = _Option;
  * @endcode
  */
 char* getCommand()
 {
-    const int BUFFER_SIZE = 256;
-    char* _InputCode = (char*)malloc(sizeof(char)*BUFFER_SIZE);
+    const int BUFFER_SIZE = 128;
+    char* InputCode = (char*)malloc(sizeof(char) * BUFFER_SIZE);
     char c;
+    int ReAllocCount = 1;
 
     for (int i = 0; ; i++)
     {
         if (i == BUFFER_SIZE)
         {
-            printf("Given buffer size exceeded\n");
-            exit(1); //exit with an error code
+            ReAllocCount++;
+            InputCode = realloc(InputCode, sizeof(char) * BUFFER_SIZE * ReAllocCount);
+            //printf("Given buffer size exceeded\n");
+            //exit(1); //exit with an error code
         }
 
         c = getchar();
@@ -176,75 +165,91 @@ char* getCommand()
         if (c == '\n')
         {
             c = '\0';
-            _InputCode[i] = c;
+            InputCode[i] = c;
             break;
         }
         else
         {
-            _InputCode[i] = c;
+            InputCode[i] = c;
         }
     }
-    return _InputCode;
+    return InputCode;
 }
 
 /**
- * @fn splitCommand(char* _InputCode)
+ * @fn splitCommand(char* InputCode)
  * @brief Split string and make command struct
  * @details
  * Split string from getCommand()
- * @n as command name and command option
- * @n then make a STcommand instance with splited data
- * @n filally return it
  * 
- * @param _InputCode 
+ * @param InputCode 
  * Takes string from getCommand()
- * @return command* 
- * Return a pointer of command struct
+ * @return char**
+ * Return a pointer of splited tokens.
+ * @n This is an array of string pointers.
  * 
  * @see
- * @ref STcommand
- * Using this struct
+ * This is an old Code, which had a problem.
+ * @n It was okay with only one option.
+ * @n So it was unable to execute a command like "diff file1 file2".
+ * @code{.c}
+ * command* CommandCode = (command*)malloc(sizeof(command)*1);
+ * char SplitPoint = ' ';
+ * 
+ * //if user just pressed enter, no input
+ * if (strcmp(InputCode, "\0") == 0)\
+ * {
+ *      CommandCode->Name = NULL;
+ *      CommandCode->Option = NULL;
+ *      return CommandCode;
+ * }
+ * 
+ * CommandCode->Name = strtok(InputCode, &SplitPoint);
+ * CommandCode->Option = strtok(NULL, &SplitPoint);
+ * return CommandCode;
+ * @endcode
  */
-command* splitCommand(char* _InputCode)
+char** splitCommand(char* InputCode)
 {
-    command* _CommandCode = (command*)malloc(sizeof(command)*1);
+    const int BUFFER_SIZE = 32;
+    int ReAlloc = 1;
+    int Position = 0;
+    char** CommandCode = (char**)malloc(sizeof(char*) * BUFFER_SIZE);
+    char* Token;
     char SplitPoint = ' ';
 
-    //if user just pressed enter, no input
-    if (strcmp(_InputCode, "\0") == 0)\
+    Token = strtok(InputCode, &SplitPoint);
+    for (Position = 0; Token != NULL; Position++)
     {
-        _CommandCode->Name = NULL;
-        _CommandCode->Option = NULL;
-        return _CommandCode;
+        CommandCode[Position] = Token;
+
+        if (Position >= BUFFER_SIZE * ReAlloc)
+        {
+            ReAlloc++;
+            CommandCode = realloc(CommandCode, sizeof(char*) * BUFFER_SIZE * ReAlloc);
+        }
+
+        Token = strtok(NULL, &SplitPoint);
     }
     
-    _CommandCode->Name = strtok(_InputCode, &SplitPoint);
-    _CommandCode->Option = strtok(NULL, &SplitPoint);
-    
-    return _CommandCode;
+    CommandCode[Position] = NULL;
+
+    return CommandCode;
 }
 
 /**
- * @fn releaseMemory(command* _CommandCode)
+ * @fn releaseMemory(char** CommandCode)
  * @brief Release used memory
  * 
- * @param _CommandCode
- * Release this struct and its member, which was allocated by malloc()
+ * @param CommandCode
+ * Release a pointer, which was allocated by malloc()
  * @return int 
  * Return 0 when then function ended successfully
  * 
- * @see
- * @ref STcommand
- * Refer to this struct
  */
-int releaseMemory(command* _CommandCode)
+int releaseMemory(char** CommandCode)
 {
-    if(_CommandCode->Name != NULL)
-        free(_CommandCode->Name);
-    if(_CommandCode->Option != NULL)
-        free(_CommandCode->Option);
-
-    free(_CommandCode);
+    free(CommandCode);
 
     return 0;
 }
